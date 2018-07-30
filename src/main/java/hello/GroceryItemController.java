@@ -85,6 +85,7 @@ public class GroceryItemController {
         editItem.setId(id);
         editItem.setQuantity(editedItemDetails.quantity);
         editItem.setItem(editedItemDetails.item);
+        editItem.setGroceryListId(editedItemDetails.groceryListId);
         mongoOperations.save(editItem);
         return itemRepository.findAll();
     }
