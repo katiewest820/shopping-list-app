@@ -20,7 +20,10 @@ public class GroceryItemController {
     //private final AtomicLong counter = new AtomicLong();
 
     @Autowired
-    private ItemRepository itemRepository;
+    ItemRepository itemRepository;
+
+    @Autowired
+    GroceryListRepository groceryListRepository;
 
     @Autowired
     MongoOperations mongoOperations;
@@ -29,7 +32,14 @@ public class GroceryItemController {
     @RequestMapping(value = "/addItem", method = POST)
     public ResponseEntity<Item> update(@RequestBody Item newItem){
         itemRepository.save(newItem);
-        //newItem.id = counter.incrementAndGet();
+        GroceryList groceryList = mongoOperations.findOne(new Query(Criteria.where("id").is(newItem.groceryListId)), GroceryList.class, "groceryList");
+        long itemCount = groceryList.itemCount +1;
+        System.out.println(itemCount);
+
+        groceryList.setItemCount(itemCount++);
+        mongoOperations.save(groceryList);
+        //Optional <GroceryList> editedGroceryList = groceryListRepository.findById(newItem.groceryListId);
+        System.out.println(groceryList);
         System.out.println(newItem.item + " successfully added");
         return ResponseEntity.ok(newItem);
     }
