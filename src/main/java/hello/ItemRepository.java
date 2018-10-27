@@ -8,6 +8,7 @@ public interface ItemRepository extends MongoRepository<Item, String> {
 
     public List<Item> findByItem(String item);
     public List<Item> deleteByItem(String item);
+    public List<Item> findByGroceryListId(String groceryListId);
 
 
 

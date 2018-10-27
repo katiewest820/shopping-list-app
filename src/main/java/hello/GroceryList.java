@@ -7,12 +7,12 @@ public class GroceryList {
     public boolean active;
     public long itemCount;
 
-    public GroceryList(String id, String name, boolean active, long itemCount) {
-        this.id = id;
-        this.name = name;
-        this.active = active;
-        this.itemCount = itemCount;
-    }
+//    public GroceryList(String id, String name, boolean active, long itemCount) {
+//        this.id = id;
+//        this.name = name;
+//        this.active = active;
+//        this.itemCount = itemCount;
+//    }
 
     public String getName() {
         return name;

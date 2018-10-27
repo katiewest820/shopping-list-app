@@ -6,6 +6,7 @@ public class Item {
     public String item;
     public int quantity;
     public boolean active;
+    public boolean starred;
     public String groceryListId;
 
     public String getId() {
@@ -38,6 +39,14 @@ public class Item {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isStarred() {
+        return starred;
+    }
+
+    public void setStarred(boolean starred) {
+        this.starred = starred;
     }
 
     public String getGroceryListId() {

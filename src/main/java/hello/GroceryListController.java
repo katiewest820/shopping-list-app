@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class GroceryListController {
@@ -22,11 +25,12 @@ public class GroceryListController {
     MongoOperations mongoOperations;
 
     //add grocery list
-    @RequestMapping(value = "/addGroceryList", method = RequestMethod.POST)
-    public List<GroceryList> update(@RequestBody GroceryList newGroceryList){
+    @RequestMapping(value = "/addGroceryList", method = POST)
+    public ResponseEntity<GroceryList> update(@RequestBody GroceryList newGroceryList){
         groceryListRepository.save(newGroceryList);
+        System.out.println(newGroceryList);
         System.out.println(newGroceryList.getName() + " successfully added");
-        return groceryListRepository.findAll();
+        return ResponseEntity.ok(newGroceryList);
     }
 
     //get all grocery lists
@@ -50,7 +54,7 @@ public class GroceryListController {
     //edit one grocery list
     @RequestMapping(value = "/editGroceryList/{id}", method = RequestMethod.PUT)
     public List<GroceryList> editGroceryList(@PathVariable("id") String id, @RequestBody GroceryList editedGroceryList){
-        long itemCount = mongoOperations.count(new Query(Criteria.where("groceryListId").is(editedGroceryList.id)), Item.class, "item");
+        long itemCount = mongoOperations.count(new Query(Criteria.where("groceryListId").is(editedGroceryList.id).and("active").is(true)), Item.class, "item");
         GroceryList groceryList = mongoOperations.findOne(new Query(Criteria.where("id").is(id)), GroceryList.class, "groceryList");
         groceryList.setItemCount(itemCount);
         groceryList.setActive(editedGroceryList.active);
@@ -75,12 +79,6 @@ public class GroceryListController {
         System.out.println(deletedGroceryList);
         return groceryListRepository.findAll();
     }
-
-
-
-
-
-
 
 
 }
